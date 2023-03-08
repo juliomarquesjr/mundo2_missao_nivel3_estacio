@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ControleLivro } from "./controle/ControleLivros";
 import { ControleEditora } from "./controle/ControleEditora";
 
@@ -6,9 +6,12 @@ import { Livro } from "./modelo/Livro";
 
 type PropsLinhaLivro = {
   livro: Livro;
+  carregando: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const LinhaLivro = ({ livro }: PropsLinhaLivro) => {
+const livros = new ControleLivro();
+
+const LinhaLivro = ({ livro, carregando }: PropsLinhaLivro) => {
   const editora = new ControleEditora();
 
   return (
@@ -16,7 +19,14 @@ const LinhaLivro = ({ livro }: PropsLinhaLivro) => {
       <tr>
         <th scope="row">
           <p>{livro.titulo}</p>
-          <button type="button" className="btn btn-danger btn-sm">
+          <button
+            type="button"
+            className="btn btn-danger btn-sm"
+            onClick={() => {
+              livros.excluir(livro.codigo);
+              carregando(true);
+            }}
+          >
             Excluir
           </button>
         </th>
@@ -39,7 +49,14 @@ const LinhaLivro = ({ livro }: PropsLinhaLivro) => {
 };
 
 export default function LivroLista() {
-  const meusLivros = new ControleLivro();
+  const [meusLivros, setMeusLivros] = useState<Livro[]>(livros.obterLivros());
+  const [carregando, setCarregando] = useState<boolean>(false);
+
+  useEffect(() => {
+    setMeusLivros(livros.obterLivros());
+    setCarregando(false);
+  }, [carregando]);
+
   return (
     <main className="container">
       <h1>Catalogo de Livros</h1>
@@ -53,8 +70,14 @@ export default function LivroLista() {
           </tr>
         </thead>
         <tbody>
-          {meusLivros.obterLivros().map((livro) => {
-            return <LinhaLivro key={livro.codigo} livro={livro} />;
+          {meusLivros.map((livro) => {
+            return (
+              <LinhaLivro
+                key={livro.codigo}
+                livro={livro}
+                carregando={setCarregando}
+              />
+            );
           })}
         </tbody>
       </table>
