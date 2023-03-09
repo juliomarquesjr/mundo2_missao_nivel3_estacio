@@ -1,13 +1,30 @@
 import React from "react";
 import Menu from "./Menu";
+import { Livro } from "./modelo/Livro";
+import { ControleLivro } from "./controle/ControleLivros";
+import { useNavigate } from "react-router-dom";
 
-export default function LivroDados() {
+type Props = {
+  livros: ControleLivro;
+};
+
+export default function LivroDados({ livros }: Props) {
+  const navigate = useNavigate();
+
+  function cadastrarLivro(event: React.FormEvent) {
+    event.preventDefault();
+
+    const novoLivro = new Livro(1, 2, "teste", "resumo de teste", ["Julio"]);
+    livros.incluir(novoLivro);
+    navigate("/catalogo");
+  }
+
   return (
     <React.Fragment>
       <Menu />
       <main className="container">
         <h1>Dados Livro</h1>
-        <form>
+        <form onSubmit={(event) => cadastrarLivro(event)}>
           {/* Input Titulo: Inicio */}
           <div className="form-group">
             <label htmlFor="titulo">Título</label>

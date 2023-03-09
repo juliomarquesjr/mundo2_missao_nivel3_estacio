@@ -7,12 +7,17 @@ import Menu from "./Menu";
 
 type PropsLinhaLivro = {
   livro: Livro;
+  acervo: ControleLivro
   carregando: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const livros = new ControleLivro();
+type Props = {
+  livros: ControleLivro;
+};
 
-const LinhaLivro = ({ livro, carregando }: PropsLinhaLivro) => {
+/* const livros = new ControleLivro(); */
+
+const LinhaLivro = ({ acervo, livro, carregando }: PropsLinhaLivro) => {
   const editora = new ControleEditora();
 
   return (
@@ -24,7 +29,7 @@ const LinhaLivro = ({ livro, carregando }: PropsLinhaLivro) => {
             type="button"
             className="btn btn-danger btn-sm"
             onClick={() => {
-              livros.excluir(livro.codigo);
+              acervo.excluir(livro.codigo);
               carregando(true);
             }}
           >
@@ -49,7 +54,7 @@ const LinhaLivro = ({ livro, carregando }: PropsLinhaLivro) => {
   );
 };
 
-export default function LivroLista() {
+export default function LivroLista({ livros }: Props) {
   const [meusLivros, setMeusLivros] = useState<Livro[]>(livros.obterLivros());
   const [carregando, setCarregando] = useState<boolean>(false);
 
@@ -79,6 +84,7 @@ export default function LivroLista() {
                   key={livro.codigo}
                   livro={livro}
                   carregando={setCarregando}
+                  acervo={livros}
                 />
               );
             })}
