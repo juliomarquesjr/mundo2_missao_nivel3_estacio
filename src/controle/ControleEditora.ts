@@ -2,10 +2,10 @@ import { Editora } from "../modelo/Editora";
 
 export class ControleEditora {
   editoras: Editora[] = [
-    { nome: "Julio", codEditora: 1 },
-    { nome: "Kauan", codEditora: 2 },
-    { nome: "Ruan", codEditora: 3 },
-    { nome: "Diego", codEditora: 4 },
+    { nome: "Abril", codEditora: 1 },
+    { nome: "Veja", codEditora: 2 },
+    { nome: "Norte", codEditora: 3 },
+    { nome: "Atlas", codEditora: 4 },
   ];
 
   getNomeEditora(cod: number) {

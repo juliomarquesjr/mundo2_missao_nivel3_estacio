@@ -3,6 +3,7 @@ import { ControleLivro } from "./controle/ControleLivros";
 import { ControleEditora } from "./controle/ControleEditora";
 
 import { Livro } from "./modelo/Livro";
+import Menu from "./Menu";
 
 type PropsLinhaLivro = {
   livro: Livro;
@@ -58,29 +59,32 @@ export default function LivroLista() {
   }, [carregando]);
 
   return (
-    <main className="container">
-      <h1>Catalogo de Livros</h1>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Título</th>
-            <th scope="col">Resumo</th>
-            <th scope="col">Editora</th>
-            <th scope="col">Autores</th>
-          </tr>
-        </thead>
-        <tbody>
-          {meusLivros.map((livro) => {
-            return (
-              <LinhaLivro
-                key={livro.codigo}
-                livro={livro}
-                carregando={setCarregando}
-              />
-            );
-          })}
-        </tbody>
-      </table>
-    </main>
+    <React.Fragment>
+      <Menu />
+      <main className="container">
+        <h1>Catalogo de Livros</h1>
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Título</th>
+              <th scope="col">Resumo</th>
+              <th scope="col">Editora</th>
+              <th scope="col">Autores</th>
+            </tr>
+          </thead>
+          <tbody>
+            {meusLivros.map((livro) => {
+              return (
+                <LinhaLivro
+                  key={livro.codigo}
+                  livro={livro}
+                  carregando={setCarregando}
+                />
+              );
+            })}
+          </tbody>
+        </table>
+      </main>
+    </React.Fragment>
   );
 }
